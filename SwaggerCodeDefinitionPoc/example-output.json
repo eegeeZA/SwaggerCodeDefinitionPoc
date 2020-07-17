@@ -1,0 +1,301 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Swagger specification",
+    "version": "1.0.0"
+  },
+  "definitions": {
+    "Order": {
+      "type": "object",
+      "additionalProperties": {},
+      "required": [
+        "id",
+        "petId",
+        "quantity",
+        "shipDate",
+        "status",
+        "complete"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "petId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "shipDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "$ref": "#/definitions/OrderStatus"
+        },
+        "complete": {
+          "type": "boolean"
+        }
+      }
+    },
+    "OrderStatus": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Placed",
+        "Approved",
+        "Delivered"
+      ],
+      "enum": [
+        "placed",
+        "approved",
+        "delivered"
+      ]
+    },
+    "Category": {
+      "type": "object",
+      "additionalProperties": {},
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "additionalProperties": {},
+      "required": [
+        "id",
+        "username",
+        "firstName",
+        "lastName",
+        "email",
+        "password",
+        "phone",
+        "userStatus"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "username": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "nickname": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "userStatus": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "Tag": {
+      "type": "object",
+      "additionalProperties": {},
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "Pet": {
+      "type": "object",
+      "additionalProperties": {},
+      "required": [
+        "id",
+        "category",
+        "name",
+        "photoUrls",
+        "tags",
+        "status"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "category": {
+          "$ref": "#/definitions/Category"
+        },
+        "name": {
+          "type": "string"
+        },
+        "photoUrls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Tag"
+          }
+        },
+        "status": {
+          "$ref": "#/definitions/PetStatus"
+        }
+      }
+    },
+    "PetStatus": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "Available",
+        "Pending",
+        "Sold"
+      ],
+      "enum": [
+        "available",
+        "pending",
+        "sold"
+      ]
+    },
+    "ApiResponse": {
+      "type": "object",
+      "additionalProperties": {},
+      "required": [
+        "code",
+        "type",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "type": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Anonymous": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Available",
+        "Pending",
+        "Sold"
+      ],
+      "enum": [
+        0,
+        1,
+        2
+      ]
+    },
+    "OrderStatus2": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Placed",
+        "Approved",
+        "Delivered"
+      ],
+      "enum": [
+        0,
+        1,
+        2
+      ]
+    },
+    "PetStatus2": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Available",
+        "Pending",
+        "Sold"
+      ],
+      "enum": [
+        0,
+        1,
+        2
+      ]
+    },
+    "FileParameter": {
+      "type": "object",
+      "properties": {
+        "Data": {
+          "$ref": "#/definitions/Stream"
+        },
+        "FileName": {
+          "type": "string"
+        },
+        "ContentType": {
+          "type": "string"
+        }
+      }
+    },
+    "Stream": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/MarshalByRefObject"
+        },
+        {
+          "type": "object",
+          "x-abstract": true,
+          "required": [
+            "CanTimeout",
+            "ReadTimeout",
+            "WriteTimeout"
+          ],
+          "properties": {
+            "CanTimeout": {
+              "type": "boolean"
+            },
+            "ReadTimeout": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "WriteTimeout": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        }
+      ]
+    },
+    "MarshalByRefObject": {
+      "type": "object",
+      "x-abstract": true
+    }
+  }
+}

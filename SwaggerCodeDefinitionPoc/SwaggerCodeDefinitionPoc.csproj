@@ -29,7 +29,9 @@
     <Exec Command="$(NSwagExe_Core31) run example.nswag /variables:Configuration=$(Configuration),OutDir=$(OutDir),Output=obj/Example.cs" />
     <RemoveDir Directories="$(OutDir)References" />
   </Target>
-    <RemoveDir Directories="$(OutDir)References" />
+
+  <Target Name="ShareSchema" AfterTargets="CoreCompile">
+    <Exec Command="$(NSwagExe_Core31) types2openapi /assembly:$(OutDir)$(AssemblyName).dll /output:example-output.json /ClassNames:Example.*" />
   </Target>
 
 </Project>
