@@ -1,4 +1,5 @@
 ﻿using System;
+using Example;
 
 namespace SwaggerCodeDefinitionPoc
 {
@@ -6,7 +7,8 @@ namespace SwaggerCodeDefinitionPoc
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var pet = new Pet { Name = "Teddy" };
+            Console.WriteLine("Hello " + pet.ToJson());
         }
     }
 }
