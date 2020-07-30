@@ -30,7 +30,7 @@
     <RemoveDir Directories="$(OutDir)References" />
   </Target>
 
-  <Target Name="ShareSchema" AfterTargets="CoreCompile">
+  <Target Name="ShareSchema" AfterTargets="CoreBuild">
     <Exec Command="$(NSwagExe_Core31) types2openapi /assembly:$(OutDir)$(AssemblyName).dll /output:example-output.json /ClassNames:Example.*" />
   </Target>
 
