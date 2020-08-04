@@ -3,7 +3,7 @@
   "defaultVariables": null,
   "documentGenerator": {
     "fromDocument": {
-      "url": "https://api.swaggerhub.com/apis/eegee/Example-Central-API/1.0.0",
+      "url": "$(Url)",
       "output": null,
       "newLineBehavior": "Auto"
     }

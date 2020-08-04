@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GenSrcDir>GenSrc</GenSrcDir>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,21 +14,19 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Include="obj\*.cs" />
-  </ItemGroup>
-
-  <Target Name="RemoveGenerated" AfterTargets="Clean">
-    <ItemGroup>
-      <FilesToDelete Include="obj\*.cs" />
-    </ItemGroup>
-    <Delete Files="@(FilesToDelete)" />
+  <Target Name="RemoveGenerated" AfterTargets="CoreClean">
+      <RemoveDir Directories="$(GenSrcDir)" />
   </Target>
 
-  <Target Name="NSwag" BeforeTargets="CoreCompile" Condition="!Exists('obj/Example.cs')">
-    <Copy SourceFiles="@(ReferencePath)" DestinationFolder="$(OutDir)References" />
-    <Exec Command="$(NSwagExe_Core31) run example.nswag /variables:Configuration=$(Configuration),OutDir=$(OutDir),Output=obj/Example.cs" />
-    <RemoveDir Directories="$(OutDir)References" />
+  <Target Name="NSwag" BeforeTargets="CoreCompile">
+      <ItemGroup>
+          <NSwagOutput Include="$(GenSrcDir)/Example.cs" Url="https://api.swaggerhub.com/apis/eegee/Example-Central-API/1.0.0" />
+          <Compile Condition="!Exists('@(NSwagOutput)')" Include="@(NSwagOutput)" />
+      </ItemGroup>
+      <Copy SourceFiles="@(ReferencePath)" DestinationFolder="$(OutDir)References" />
+      <Exec Condition="!Exists('@(NSwagOutput)')" Command="$(NSwagExe_Core31) run example.nswag ^
+          /variables:Configuration=$(Configuration),OutDir=$(OutDir),Output=@(NSwagOutput),Url=%(Url)" />
+      <RemoveDir Directories="$(OutDir)References" />
   </Target>
 
   <Target Name="ShareSchema" AfterTargets="CoreBuild">
